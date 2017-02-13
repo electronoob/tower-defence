@@ -22,12 +22,13 @@
     <canvas id="scr" width="800" height="500"></canvas>
     <div id="buttons">x</div>
     <div id="sliders"></div>
+    <script src="./helpers.js"></script>
+    <script src="./icons.js"></script>
     <script>
         /*
-                            ctx == rendering context
-                            gtx == ground context
+                                    ctx == rendering context
+                                    gtx == ground context
         */
-        var V = new Vector();
         var ground = document.createElement("canvas");
         var gtx = ground.getContext("2d");
         var map = {};
@@ -46,70 +47,11 @@
                 }
             }
         };
-        var font = "\"Courier New\", Courier, monospace";
-        var size = 56;
-        var ctx = scr.getContext("2d");
-        var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-        var width = scr.width;
-        var height = scr.height;
-        ctx.font = size + "px " + font;
 
         function draw() {
-            ctx.clearRect(0, 0, 800, 500);
             ctx.drawImage(ground, 0, 0);
-            ctx.fillText("testing", width / 2, height / 2);
-            window.requestAnimationFrame(draw);
-        }
-        window.requestAnimationFrame(draw);
-
-        function gri(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function Vector(x = 0, y = 0) {
-            this.x = x;
-            this.y = y;
-            this.sub = function(b) {
-                this.x -= b.x;
-                this.y -= b.y;
-            }
-            this.add = function(b) {
-                this.x += b.x;
-                this.y += b.y;
-            }
-            this.mag = function() {
-                return Math.sqrt(Math.abs(this.x) ^ 2 + Math.abs(this.y) ^ 2);
-            }
-            this.magsq = function() {
-                return Math.abs(this.x) ^ 2 + Math.abs(this.y) ^ 2;
-            }
-            this.div = function(value) {
-                this.x /= value;
-                this.y /= value;
-            }
-            this.mul = function(value) {
-                this.x *= value;
-                this.y *= value;
-            }
-            this.setMag = function(value) {
-                m = this.mag();
-                if (m != 0 && m != 1) {
-                    this.div(m);
-                }
-                this.mul(value);
-            }
-        }
-
-        function getPolyVectors(x, y, sides, radius, rotaion) {
-            var points = [];
-            for (var i = 0; i < sides; i++) {
-                var lx = (radius * Math.cos(rotation + (2 * Math.PI) * i / (sides))) + x;
-                var ly = (radius * Math.sin(rotation + (2 * Math.PI) * i / (sides))) + y;
-                points.push(new att(lx, ly));
-            }
-            return points;
+            ctx.fillStyle = "rgba(255,255,255,0.4)";
+            ctx.fillText("tower defence", 100, height / 2);
         }
     </script>
 </body>
