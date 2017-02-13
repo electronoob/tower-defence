@@ -3,15 +3,17 @@
 <head>
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
     <style>
-        canvas {
+        canvas#scr {
             border: 20px solid rgba(0, 0, 0, 0.1);
         }
         
         div#buttons {
             position: relative;
-            top: -100px;
+            top: -120px;
             width: 800px;
             margin-left: 20px;
+            background-color: rgba(0,0,0,0.3);
+            height: 100px;
         }
     </style>
 </head>
@@ -20,20 +22,63 @@
     <h1>td</h1>
     <br/>
     <canvas id="scr" width="800" height="500"></canvas>
-    <div id="buttons">x</div>
+    <div id="buttons"></div>
     <div id="sliders"></div>
     <script src="./helpers.js"></script>
     <script src="./icons.js"></script>
     <script>
+
+        var btnPanel = document.getElementById("buttons");        
+        var btnIconWidth = 100;
+        var btnIconHeight = 100;
+        var btnIconRender = {};
+        var btnIcon = {};
+        btnIcon.power       = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,6,30,0);
+        btnIcon.house       = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,5,30,0);
+        btnIcon.barracks    = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,4,30,0);
+        btnIcon.wall        = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,20,30,0);
+        btnIcon.armory      = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,3,30,0);
+
+
+        Object.keys(btnIcon).forEach(function(key) {       
+            btnIconRender[key]  = document.createElement("canvas");
+            btnIconRender[key].width = btnIconWidth;
+            btnIconRender[key].height = btnIconHeight;
+            btnIconRender[key].getContext("2d").beginPath();
+            btnIconRender[key].getContext("2d").lineWidth = 3;
+            btnIconRender[key].getContext("2d").strokeStyle = "#fff";
+            btnIconRender[key].getContext("2d").moveTo(
+                btnIcon[key][btnIcon[key].length-1].x,
+                btnIcon[key][btnIcon[key].length-1].y
+            );
+            for(i=0;i<btnIcon[key].length;i++) {
+                btnIconRender[key].getContext("2d").lineTo(btnIcon[key][i].x,btnIcon[key][i].y);;
+            }
+            btnIconRender[key].getContext("2d").stroke();
+            btnIconRender[key].getContext("2d").closePath();
+            btnIconRender[key].getContext("2d").font = "20px Arial";
+            btnIconRender[key].getContext("2d").fillStyle = "rgba(255,255,255,1)";
+            btnIconRender[key].getContext("2d").strokeStyle = "rgba(100,255,100,0.4)";
+            btnIconRender[key].getContext("2d").lineWidth = 4;
+            var w = btnIconRender[key].getContext("2d").measureText(key);
+            btnIconRender[key].getContext("2d").strokeText (key, btnIconWidth/2 - w.width/2,90);
+            btnIconRender[key].getContext("2d").fillText (key, btnIconWidth/2 - w.width/2,90);
+            
+            btnPanel.appendChild(btnIconRender[key]);
+        });
+
         /*
                                     ctx == rendering context
                                     gtx == ground context
         */
+        
         var ground = document.createElement("canvas");
         var gtx = ground.getContext("2d");
         var map = {};
-        map.width = 1024;
-        map.height = 768;
+        map.width = 2048;
+        map.height = 2048;
+        var camera = {};
+        camera.pos = new Vector(map.width/2,map.height/2);
         ground.width = map.width;
         ground.height = map.height;
 
@@ -47,11 +92,9 @@
                 }
             }
         };
-
         function draw() {
-            ctx.drawImage(ground, 0, 0);
+            ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
             ctx.fillStyle = "rgba(255,255,255,0.4)";
-            ctx.fillText("tower defence", 100, height / 2);
         }
     </script>
 </body>

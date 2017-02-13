@@ -66,3 +66,12 @@
             }
             return points;
         }
+        // vector a, vector b, step size
+        function lerp(a,b,step) {
+                tmp = new Vector();
+                  tmp.add(b);
+                    tmp.sub(a);
+                      tmp.mul(step);
+                        tmp.add(a);
+                          return tmp;
+        }
