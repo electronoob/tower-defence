@@ -9,7 +9,14 @@
         var width = scr.width;
         var height = scr.height;
         ctx.font = size + "px " + font;
+        var kb = {
+            l: 0,
+            r: 0,
+            u: 0,
+            d: 0
+        };
         var draw = function() {};
+
         function render() {
             ctx.clearRect(0, 0, 800, 500);
             draw();
@@ -67,11 +74,62 @@
             return points;
         }
         // vector a, vector b, step size
-        function lerp(a,b,step) {
-                tmp = new Vector();
-                  tmp.add(b);
-                    tmp.sub(a);
-                      tmp.mul(step);
-                        tmp.add(a);
-                          return tmp;
+        function lerp(a, b, step) {
+            tmp = new Vector();
+            tmp.add(b);
+            tmp.sub(a);
+            tmp.mul(step);
+            tmp.add(a);
+            return tmp;
         }
+
+        window.addEventListener("resize", resize);
+
+        function resize() {
+            scr.width = window.innerWidth;
+            scr.height = window.innerHeight;
+            scr.style.width = window.innerWidth + "px";
+            scr.style.height = window.innerHeight + "px";
+        }
+        resize();
+
+        window.onkeydown = function(e) {
+            switch (e.keyCode) {
+                case 81:
+                    kb.u = 1;
+                    e.preventDefault();
+                    break;
+                case 65:
+                    kb.d = 1;
+                    e.preventDefault();
+                    break;
+                case 37:
+                    kb.l = 1;
+                    e.preventDefault();
+                    break;
+                case 39:
+                    kb.r = 1;
+                    e.preventDefault();
+                    break;
+            }
+        };
+        window.onkeyup = function(e) {
+            switch (e.keyCode) {
+                case 81:
+                    kb.u = 0;
+                    e.preventDefault();
+                    break;
+                case 65:
+                    kb.d = 0;
+                    e.preventDefault();
+                    break;
+                case 37:
+                    kb.l = 0;
+                    e.preventDefault();
+                    break;
+                case 39:
+                    kb.r = 0;
+                    e.preventDefault();
+                    break;
+            }
+        };

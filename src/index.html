@@ -4,19 +4,21 @@
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
     <style>
         canvas#scr {
-            border: 20px solid rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 0px;
+            left: 0px;
         }
         
         div#buttons {
-            position: relative;
-            top: -140px;
-            width: 800px;
+            position: absolute;
+            bottom: 10px;
             margin-left: 20px;
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0, 0, 0, 0.3);
             height: 120px;
         }
+        
         div#buttons canvas {
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
             margin: 10px;
             box-shadow: 2px 2px 10px #002200;
@@ -25,7 +27,7 @@
 </head>
 
 <body>
-    <h1>td</h1>
+    <h1>tower defence game</h1>
     <br/>
     <canvas id="scr" width="800" height="500"></canvas>
     <div id="buttons"></div>
@@ -33,56 +35,78 @@
     <script src="./helpers.js"></script>
     <script src="./icons.js"></script>
     <script>
-
         var bases = [];
-        bases[0] = {type: "tower", pos: new Vector(300,300), radius: 200, username: "electronoob"};
-        
-
+        bases[0] = {
+            type: "tower",
+            pos: new Vector(300, 300),
+            radius: 200,
+            username: "electronoob"
+        };
+        bases[1] = {
+            type: "tower",
+            pos: new Vector(600, 600),
+            radius: 200,
+            username: "electronoob"
+        };
+        bases[2] = {
+            type: "tower",
+            pos: new Vector(750, 300),
+            radius: 100,
+            username: "electronoob"
+        };
         /*
                                     ctx == rendering context
                                     gtx == ground context
         */
-        
+
         var ground = document.createElement("canvas");
         var gtx = ground.getContext("2d");
+        var isGroundDirty = 1; // reduce ground redraws
         var map = {};
         map.width = 2048;
         map.height = 2048;
         var camera = {};
-        camera.pos = new Vector(0,0);
+        camera.pos = new Vector(0, 0);
         ground.width = map.width;
         ground.height = map.height;
 
         var images = [];
         images.push(new Image());
         images[images.length - 1].src = "./img/green.png";
-
+        images[images.length - 1].onload = function () {
+            isGroundDirty = 1;
+        };
         function draw() {
-            gtx.clearRect(0,0,map.width,map.height);
-            for (i = 0; i < map.width + 500; i += 500) {
-                for (k = 0; k < map.height + 500; k += 500) {
-                    gtx.drawImage(images[0], i, k);
+            if (isGroundDirty) {
+                isGroundDirty = 0;
+                gtx.clearRect(0, 0, map.width, map.height);
+                for (i = 0; i < map.width + 500; i += 500) {
+                    for (k = 0; k < map.height + 500; k += 500) {
+                        gtx.drawImage(images[0], i, k);
+                    }
                 }
-            }
-            gtx.fillStyle = "rgba(255,255,255,0.5)";
-            gtx.strokeStyle = "rgba(205,255,205,1)";
-            gtx.lineWidth = 10;
-            for (i=0;i<bases.length;i++) {
-                gtx.beginPath();
-                gtx.arc(bases[i].pos.x,bases[i].pos.y,bases[i].radius,0,2*Math.PI);
-                gtx.fill();
-                gtx.stroke();
-                gtx.closePath;
-                var uOffsetX = gtx.measureText(bases[i].username).width /2;
-                var uOffsetY = gtx.measureText("M").width /2;
-                gtx.fillStyle = "rgba(255,255,255,0.7)";
-                gtx.strokeStyle = "rgba(0,0,0,0.3)";
-                gtx.lineWidth = 2;
-                gtx.font = "54px Arial";
-                gtx.fillText (bases[i].username,bases[i].pos.x - uOffsetX,
+                for (i = 0; i < bases.length; i++) {
+                    gtx.fillStyle = "rgba(255,255,255,0.5)";
+                    gtx.strokeStyle = "rgba(205,255,205,1)";
+                    gtx.lineWidth = 10;
+                    gtx.beginPath();
+                    gtx.arc(bases[i].pos.x, bases[i].pos.y, bases[i].radius, 0, 2 * Math.PI);
+                    gtx.fill();
+                    gtx.stroke();
+                    gtx.closePath;
+                    gtx.font = Math.round(bases[i].radius / 4) + "px Arial";
+                    var uOffsetX = gtx.measureText(bases[i].username).width / 2;
+                    var uOffsetY = gtx.measureText("M").width / 2;
+                    gtx.fillStyle = "rgba(255,255,255,0.7)";
+                    gtx.strokeStyle = "rgba(0,100,0,0.5)";
+                    gtx.lineWidth = 3;
+                    gtx.fillText(bases[i].username, bases[i].pos.x - uOffsetX,
                         bases[i].pos.y + uOffsetY);
-                gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
-                        bases[i].pos.y + uOffsetY);
+                    /*
+                    gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
+                            bases[i].pos.y + uOffsetY);
+                    */
+                }
             }
             ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
         }
