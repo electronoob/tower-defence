@@ -29,8 +29,9 @@
             btnIconRender[key].getContext("2d").closePath();
             btnIconRender[key].getContext("2d").font = "20px Arial";
             btnIconRender[key].getContext("2d").fillStyle = "rgba(255,255,255,1)";
-            btnIconRender[key].getContext("2d").strokeStyle = "rgba(100,255,100,0.4)";
-            btnIconRender[key].getContext("2d").lineWidth = 4;
+            btnIconRender[key].getContext("2d").strokeStyle = "rgba(0,0,0,1)";
+            btnIconRender[key].getContext("2d").lineWidth = 1;
+            btnIconRender[key].getContext("2d").miterLimit = 2;
             var w = btnIconRender[key].getContext("2d").measureText(key);
             btnIconRender[key].getContext("2d").strokeText (key, btnIconWidth/2 - w.width/2,90);
             btnIconRender[key].getContext("2d").fillText (key, btnIconWidth/2 - w.width/2,90);

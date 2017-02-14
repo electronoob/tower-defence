@@ -34,6 +34,10 @@
     <script src="./icons.js"></script>
     <script>
 
+        var bases = [];
+        bases[0] = {type: "tower", pos: new Vector(300,300), radius: 200, username: "electronoob"};
+        
+
         /*
                                     ctx == rendering context
                                     gtx == ground context
@@ -45,23 +49,42 @@
         map.width = 2048;
         map.height = 2048;
         var camera = {};
-        camera.pos = new Vector(map.width/2,map.height/2);
+        camera.pos = new Vector(0,0);
         ground.width = map.width;
         ground.height = map.height;
 
         var images = [];
         images.push(new Image());
         images[images.length - 1].src = "./img/green.png";
-        images[images.length - 1].onload = function() {
+
+        function draw() {
+            gtx.clearRect(0,0,map.width,map.height);
             for (i = 0; i < map.width + 500; i += 500) {
                 for (k = 0; k < map.height + 500; k += 500) {
                     gtx.drawImage(images[0], i, k);
                 }
             }
-        };
-        function draw() {
+            gtx.fillStyle = "rgba(255,255,255,0.5)";
+            gtx.strokeStyle = "rgba(205,255,205,1)";
+            gtx.lineWidth = 10;
+            for (i=0;i<bases.length;i++) {
+                gtx.beginPath();
+                gtx.arc(bases[i].pos.x,bases[i].pos.y,bases[i].radius,0,2*Math.PI);
+                gtx.fill();
+                gtx.stroke();
+                gtx.closePath;
+                var uOffsetX = gtx.measureText(bases[i].username).width /2;
+                var uOffsetY = gtx.measureText("M").width /2;
+                gtx.fillStyle = "rgba(255,255,255,0.7)";
+                gtx.strokeStyle = "rgba(0,0,0,0.3)";
+                gtx.lineWidth = 2;
+                gtx.font = "54px Arial";
+                gtx.fillText (bases[i].username,bases[i].pos.x - uOffsetX,
+                        bases[i].pos.y + uOffsetY);
+                gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
+                        bases[i].pos.y + uOffsetY);
+            }
             ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
-            ctx.fillStyle = "rgba(255,255,255,0.4)";
         }
     </script>
 </body>
