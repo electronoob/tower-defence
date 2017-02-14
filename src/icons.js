@@ -35,6 +35,6 @@
             var w = btnIconRender[key].getContext("2d").measureText(key);
             btnIconRender[key].getContext("2d").strokeText (key, btnIconWidth/2 - w.width/2,90);
             btnIconRender[key].getContext("2d").fillText (key, btnIconWidth/2 - w.width/2,90);
-            
+            btnIconRender[key].className = "btnIconRender";
             btnPanel.appendChild(btnIconRender[key]);
         });

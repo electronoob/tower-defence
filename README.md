@@ -1,6 +1,6 @@
 # Tower Defence
 
- ![alt text](http://i.imgur.com/Ejt52AT.png "early screenshot")
+ ![alt text](https://i.imgur.com/lkQyUQG.jpg "early screenshot")
 
 # Features
 
