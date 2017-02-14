@@ -91,11 +91,6 @@
         var ground = document.createElement("canvas");
         var gtx = ground.getContext("2d");
         var isGroundDirty = 1; // reduce ground redraws
-        var map = {};
-        map.width = 2048;
-        map.height = 2048;
-        var camera = {};
-        camera.pos = new Vector(0, 0);
         ground.width = map.width;
         ground.height = map.height;
 

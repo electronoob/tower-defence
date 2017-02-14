@@ -1,6 +1,18 @@
         var map = {};
-        map.width = 1024;
-        map.height = 768;
+        map.width = 2048;
+        map.height = 2048;
+        function cameraObj (x=0,y=0) {
+            this.pos = new Vector(x, y);
+            this.vel = new Vector(0, 0);
+            this.acc = new Vector(0, 0);
+            this.update = function () {
+                this.vel.mul(0.9);
+                this.pos.add(this.vel);
+                this.vel.add(this.acc);
+                this.acc.mul(0);
+            }
+        }
+        var camera = new cameraObj();
         var images = [];
         var font = "\"Courier New\", Courier, monospace";
         var size = 56;
@@ -18,7 +30,12 @@
         var draw = function() {};
 
         function render() {
-            ctx.clearRect(0, 0, 800, 500);
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            if(kb.u) camera.acc.add(new Vector( 0, -2));
+            if(kb.d) camera.acc.add(new Vector( 0,  2));
+            if(kb.l) camera.acc.add(new Vector(-2,  0));
+            if(kb.r) camera.acc.add(new Vector( 2,  0));
+            camera.update();
             draw();
             window.requestAnimationFrame(render);
         }
