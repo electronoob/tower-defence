@@ -32,12 +32,15 @@
         canvas.btnIconRender:hover {
             background-color: rgba(0, 0, 0, 0.8);
         }
+        body {
+            background: url(./img/red.png);
+            padding: 0px;
+            margin: 0px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>tower defence game</h1>
-    <br/>
     <canvas id="scr" width="800" height="500"></canvas>
     <div id="buttonsContainer">
         <div id="buttons"></div>
@@ -46,14 +49,16 @@
     <script src="./helpers.js"></script>
     <script src="./icons.js"></script>
     <script>
+
         var bases = [];
         bases[0] = {
             type: "tower",
-            pos: new Vector(300, 300),
+            pos: new Vector(500, 500),
             radius: 200,
             username: "electronoob",
             color: "205,255,205"
         };
+/*
         bases[1] = {
             type: "tower",
             pos: new Vector(600, 600),
@@ -83,7 +88,7 @@
             username: "iomods",
             color: "205,255,100"
         };
-
+*/
         /*
                                     ctx == rendering context
                                     gtx == ground context
@@ -104,8 +109,8 @@
             if (isGroundDirty) {
                 isGroundDirty = 0;
                 gtx.clearRect(0, 0, map.width, map.height);
-                for (i = -map.width; i < map.width + 500; i += 500) {
-                    for (k = -map.height; k < map.height + 500; k += 500) {
+                for (i = 0; i < map.width + 500; i += 500) {
+                    for (k = 0; k < map.height + 500; k += 500) {
                         gtx.drawImage(images[0], i, k);
                     }
                 }
@@ -133,6 +138,9 @@
                 }
             }
             ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
+            var mouseRel = Math.round(mX+camera.pos.x) + "," + Math.round(mY+camera.pos.y);
+            ctx.font = "50px Arial";
+            ctx.fillText (mouseRel, 50, 50) ;
         }
     </script>
 </body>

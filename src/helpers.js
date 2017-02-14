@@ -27,6 +27,8 @@
             u: 0,
             d: 0
         };
+        var mX = 0;
+        var mY = 0;
         var draw = function() {};
 
         function render() {
@@ -150,3 +152,18 @@
                     break;
             }
         };
+
+
+ document.getElementById('scr').addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(scr, evt);
+           mX = mousePos.x;
+              mY = mousePos.y;
+               }, false);
+
+  function getMousePos(canvas, evt) {
+         var rect = canvas.getBoundingClientRect();
+            return {
+                     x: evt.clientX - rect.left,
+                          y: evt.clientY - rect.top
+                             };
+                              }
