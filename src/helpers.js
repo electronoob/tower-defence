@@ -112,11 +112,11 @@
 
         window.onkeydown = function(e) {
             switch (e.keyCode) {
-                case 81:
+                case 38:
                     kb.u = 1;
                     e.preventDefault();
                     break;
-                case 65:
+                case 40:
                     kb.d = 1;
                     e.preventDefault();
                     break;
@@ -132,11 +132,11 @@
         };
         window.onkeyup = function(e) {
             switch (e.keyCode) {
-                case 81:
+                case 38:
                     kb.u = 0;
                     e.preventDefault();
                     break;
-                case 65:
+                case 40:
                     kb.d = 0;
                     e.preventDefault();
                     break;
