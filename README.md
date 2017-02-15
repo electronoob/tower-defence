@@ -2,7 +2,7 @@
 
  ![alt text](https://i.imgur.com/lkQyUQGl.jpg "early screenshot")
 
-[Click here to open current version](http://tower.iomods.com/src/index.html)
+## [Click here to open current version](http://tower.iomods.com/src/index.html)
 
 # Features
 
@@ -21,4 +21,4 @@ In summary:
 
 
 
-![alt text](github.gif "github logo")
+[![alt text](github.gif "github logo")](https://github.com/electronoob/tower-defence)
