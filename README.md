@@ -19,3 +19,6 @@ In summary:
 
 >I would really enjoy blobleio but that game frustrates me. That is the motivation I needed to start something more suited to my own requirements.
 
+
+
+![alt text](github.gif "github logo")
