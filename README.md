@@ -1,6 +1,8 @@
 # Tower Defence
 
- ![alt text](https://i.imgur.com/lkQyUQG.jpg "early screenshot")
+ ![alt text](https://i.imgur.com/lkQyUQGl.jpg "early screenshot")
+
+[Click here to open current version](http://tower.iomods.com/src/index.html)
 
 # Features
 
