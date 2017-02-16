@@ -1,45 +1,19 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <base href="">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="io, game, games, web game, html5, fun, flash">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <title>Tower Defence</title>
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
-    <style>
-        canvas#scr {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-        }
-        div#buttonsContainer {
-            position: absolute;
-            bottom: 10px;
-            height: 120px;
-            width: 100%;
-            text-align:center;
-        }
-        div#buttons {
-            background-color: rgba(0, 0, 0, 0.4);
-            height: 120px;
-            border-radius: 90px;
-            padding-left: 50px;
-            padding-right: 50px;
-            display: inline-block
-        } 
-        canvas.btnIconRender {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            margin: 10px;
-            box-shadow: 1px 1px 2px #002200;
-        }
-        canvas.btnIconRender:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        body {
-            background: url(./img/red.png);
-            padding: 0px;
-            margin: 0px;
-        }
-    </style>
 </head>
-
 <body>
     <canvas id="scr" width="800" height="500"></canvas>
     <div id="buttonsContainer">
@@ -49,124 +23,125 @@
     <script src="./helpers.js"></script>
     <script src="./icons.js"></script>
     <script>
+    var bases = [];
+    bases[0] = {
+        type: "tower",
+        pos: new Vector(500, 500),
+        radius: 200,
+        username: "electronoob",
+        color: "205,255,205",
+        selected: 0
+    };
+    /*
+            bases[1] = {
+                type: "tower",
+                pos: new Vector(600, 600),
+                radius: 200,
+                username: "electronoob",
+                color: "205,255,205"
+            };
+            bases[2] = {
+                type: "tower",
+                pos: new Vector(750, 300),
+                radius: 100,
+                username: "electronoob",
+                color: "205,255,205"
+            };
 
-        var bases = [];
-        bases[0] = {
-            type: "tower",
-            pos: new Vector(500, 500),
-            radius: 200,
-            username: "electronoob",
-            color: "205,255,205",
-            selected: 0
-        };
-/*
-        bases[1] = {
-            type: "tower",
-            pos: new Vector(600, 600),
-            radius: 200,
-            username: "electronoob",
-            color: "205,255,205"
-        };
-        bases[2] = {
-            type: "tower",
-            pos: new Vector(750, 300),
-            radius: 100,
-            username: "electronoob",
-            color: "205,255,205"
-        };
+            bases[3] = {
+                type: "tower",
+                pos: new Vector(200, 1000),
+                radius: 230,
+                username: "iomods",
+                color: "205,255,100"
+            };
+            bases[4] = {
+                type: "tower",
+                pos: new Vector(1200, 300),
+                radius: 300,
+                username: "iomods",
+                color: "205,255,100"
+            };
+    */
+    /*
+                                ctx == rendering context
+                                gtx == ground context
+    */
+    var ground = document.createElement("canvas");
+    var gtx = ground.getContext("2d");
+    var isGroundDirty = 1; // reduce ground redraws
+    ground.width = map.width;
+    ground.height = map.height;
 
-        bases[3] = {
-            type: "tower",
-            pos: new Vector(200, 1000),
-            radius: 230,
-            username: "iomods",
-            color: "205,255,100"
-        };
-        bases[4] = {
-            type: "tower",
-            pos: new Vector(1200, 300),
-            radius: 300,
-            username: "iomods",
-            color: "205,255,100"
-        };
-*/
-        /*
-                                    ctx == rendering context
-                                    gtx == ground context
-        */
-        var ground = document.createElement("canvas");
-        var gtx = ground.getContext("2d");
-        var isGroundDirty = 1; // reduce ground redraws
-        ground.width = map.width;
-        ground.height = map.height;
+    var images = [];
+    images.push(new Image());
+    images[images.length - 1].src = "./img/green.png";
+    images[images.length - 1].onload = function() {
+        isGroundDirty = 1;
+    };
 
-        var images = [];
-        images.push(new Image());
-        images[images.length - 1].src = "./img/green.png";
-        images[images.length - 1].onload = function () {
-            isGroundDirty = 1;
-        };
-        function draw() {
-            if (isGroundDirty) {
-                isGroundDirty = 0;
-                gtx.clearRect(0, 0, map.width, map.height);
-                for (i = 0; i < map.width + 500; i += 500) {
-                    for (k = 0; k < map.height + 500; k += 500) {
-                        gtx.drawImage(images[0], i, k);
-                    }
-                }
-                for (i = 0; i < bases.length; i++) {
-                    if(bases[i].selected) {
-                        gtx.fillStyle = "rgba(255,255,100,0.5)";
-                    } else {
-                        gtx.fillStyle = "rgba(255,255,255,0.5)";
-                    }
-                    gtx.strokeStyle = "rgba("+bases[i].color+",1)";
-                    gtx.lineWidth = 10;
-                    gtx.beginPath();
-                    gtx.arc(bases[i].pos.x, bases[i].pos.y, bases[i].radius, 0, 2 * Math.PI);
-                    gtx.fill();
-                    gtx.stroke();
-                    gtx.closePath;
-                    gtx.font = Math.round(bases[i].radius / 4) + "px Arial";
-                    var uOffsetX = gtx.measureText(bases[i].username).width / 2;
-                    var uOffsetY = gtx.measureText("M").width / 2;
-                    gtx.fillStyle = "rgba(255,255,255,0.7)";
-                    gtx.strokeStyle = "rgba(0,100,0,0.5)";
-                    gtx.lineWidth = 3;
-                    gtx.fillText(bases[i].username, bases[i].pos.x - uOffsetX,
-                        bases[i].pos.y + uOffsetY);
-                    /*
-                    gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
-                            bases[i].pos.y + uOffsetY);
-                    */
+    function draw() {
+        if (isGroundDirty) {
+            isGroundDirty = 0;
+            gtx.clearRect(0, 0, map.width, map.height);
+            for (i = 0; i < map.width + 500; i += 500) {
+                for (k = 0; k < map.height + 500; k += 500) {
+                    gtx.drawImage(images[0], i, k);
                 }
             }
-            ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
-            var mouseRel = mXg + "," + mYg;
-            ctx.font = "50px Arial";
-            ctx.fillText (mouseRel, 50, 50) ;
-        }
-        /*
-                var mClick = function() {};
-                var mDblClick = function() {};
-        */
-        function mClick () {
-            //isGroundDirty = 1;
-        }
-        function mDblClick () {
             for (i = 0; i < bases.length; i++) {
-                var c = bases[i].pos.hypot(new Vector(mXg,mYg));
-                if (c < bases[i].radius) {
-                    //
-                    bases[i].selected = 1;
-                    
+                if (bases[i].selected) {
+                    gtx.fillStyle = "rgba(255,255,100,0.5)";
                 } else {
-                    bases[i].selected = 0;
+                    gtx.fillStyle = "rgba(255,255,255,0.5)";
                 }
+                gtx.strokeStyle = "rgba(" + bases[i].color + ",1)";
+                gtx.lineWidth = 10;
+                gtx.beginPath();
+                gtx.arc(bases[i].pos.x, bases[i].pos.y, bases[i].radius, 0, 2 * Math.PI);
+                gtx.fill();
+                gtx.stroke();
+                gtx.closePath;
+                gtx.font = Math.round(bases[i].radius / 4) + "px Arial";
+                var uOffsetX = gtx.measureText(bases[i].username).width / 2;
+                var uOffsetY = gtx.measureText("M").width / 2;
+                gtx.fillStyle = "rgba(255,255,255,0.7)";
+                gtx.strokeStyle = "rgba(0,100,0,0.5)";
+                gtx.lineWidth = 3;
+                gtx.fillText(bases[i].username, bases[i].pos.x - uOffsetX,
+                    bases[i].pos.y + uOffsetY);
+                /*
+                gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
+                        bases[i].pos.y + uOffsetY);
+                */
             }
-            isGroundDirty = 1;
         }
+        ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
+        var mouseRel = mXg + "," + mYg;
+        ctx.font = "50px Arial";
+        ctx.fillText(mouseRel, 50, 50);
+    }
+    /*
+            var mClick = function() {};
+            var mDblClick = function() {};
+    */
+    function mClick() {
+        //isGroundDirty = 1;
+    }
+
+    function mDblClick() {
+        for (i = 0; i < bases.length; i++) {
+            var c = bases[i].pos.hypot(new Vector(mXg, mYg));
+            if (c < bases[i].radius) {
+                //
+                bases[i].selected = 1;
+
+            } else {
+                bases[i].selected = 0;
+            }
+        }
+        isGroundDirty = 1;
+    }
     </script>
 </body>
 
