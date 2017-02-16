@@ -3,23 +3,22 @@
 <head>
     <base href="">
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
-    <meta name="keywords" content="io, game, games, web game, html5, fun, flash">
     <meta name="robots" content="index, follow">
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="style.css" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="favicon.ico" />
-    <title>Tower Defence</title>
+    <meta name="keywords" content="tower defence, io, game, games, web game, html5, fun, flash, lol flash">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+    <title>Tower Defence</title>
 </head>
 <body>
     <canvas id="scr" width="800" height="500"></canvas>
     <div id="buttonsContainer">
         <div id="buttons"></div>
     </div>
-    <div id="sliders"></div>
     <script src="./helpers.js"></script>
     <script src="./icons.js"></script>
     <script>
@@ -64,8 +63,8 @@
             };
     */
     /*
-                                ctx == rendering context
-                                gtx == ground context
+        ctx == rendering context
+        gtx == ground context
     */
     var ground = document.createElement("canvas");
     var gtx = ground.getContext("2d");
@@ -111,20 +110,13 @@
                 gtx.fillText(bases[i].username, bases[i].pos.x - uOffsetX,
                     bases[i].pos.y + uOffsetY);
                 /*
-                gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX,
-                        bases[i].pos.y + uOffsetY);
+                gtx.strokeText (bases[i].username,bases[i].pos.x - uOffsetX, bases[i].pos.y + uOffsetY);
                 */
             }
         }
         ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
-        var mouseRel = mXg + "," + mYg;
-        ctx.font = "50px Arial";
-        ctx.fillText(mouseRel, 50, 50);
     }
-    /*
-            var mClick = function() {};
-            var mDblClick = function() {};
-    */
+
     function mClick() {
         //isGroundDirty = 1;
     }

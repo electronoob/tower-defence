@@ -45,6 +45,13 @@
             if (kb.r) camera.acc.add(new Vector(2, 0));
             camera.update();
             draw();
+            var mouseRel = Math.round(mXg/100) + ", " + Math.round(mYg/100);
+            ctx.font = "32px Arial";
+            ctx.fillStyle = "rgba(0,0,0,1)";
+            ctx.strokeStyle = "rgba(255,255,255,1)";
+            ctx.lineWidth = 3;
+            ctx.strokeText("Location " + mouseRel, 50, 50);
+            ctx.fillText("Location " + mouseRel, 50, 50);
             window.requestAnimationFrame(render);
         }
         window.requestAnimationFrame(render);
@@ -90,6 +97,13 @@
             this.hypot = function(b) {
                 return Math.hypot(this.x - b.x, this.y - b.y);
             }
+            this.lerp = function (b, step) {
+                a = new Vector(this.x,this.y);
+                b.sub(a);
+                b.mul(step);
+                b.add(a);
+                return b;
+            }
         }
 
         function getPolyVectors(x, y, sides, radius, rotation) {
@@ -100,15 +114,6 @@
                 points.push(new Vector(lx, ly));
             }
             return points;
-        }
-        // vector a, vector b, step size
-        function lerp(a, b, step) {
-            tmp = new Vector();
-            tmp.add(b);
-            tmp.sub(a);
-            tmp.mul(step);
-            tmp.add(a);
-            return tmp;
         }
 
         window.addEventListener("resize", resize);
