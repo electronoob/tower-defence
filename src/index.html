@@ -56,7 +56,8 @@
             pos: new Vector(500, 500),
             radius: 200,
             username: "electronoob",
-            color: "205,255,205"
+            color: "205,255,205",
+            selected: 0
         };
 /*
         bases[1] = {
@@ -115,7 +116,11 @@
                     }
                 }
                 for (i = 0; i < bases.length; i++) {
-                    gtx.fillStyle = "rgba(255,255,255,0.5)";
+                    if(bases[i].selected) {
+                        gtx.fillStyle = "rgba(255,255,100,0.5)";
+                    } else {
+                        gtx.fillStyle = "rgba(255,255,255,0.5)";
+                    }
                     gtx.strokeStyle = "rgba("+bases[i].color+",1)";
                     gtx.lineWidth = 10;
                     gtx.beginPath();
@@ -138,9 +143,29 @@
                 }
             }
             ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
-            var mouseRel = Math.round(mX+camera.pos.x) + "," + Math.round(mY+camera.pos.y);
+            var mouseRel = mXg + "," + mYg;
             ctx.font = "50px Arial";
             ctx.fillText (mouseRel, 50, 50) ;
+        }
+        /*
+                var mClick = function() {};
+                var mDblClick = function() {};
+        */
+        function mClick () {
+            //isGroundDirty = 1;
+        }
+        function mDblClick () {
+            for (i = 0; i < bases.length; i++) {
+                var c = bases[i].pos.hypot(new Vector(mXg,mYg));
+                if (c < bases[i].radius) {
+                    //
+                    bases[i].selected = 1;
+                    
+                } else {
+                    bases[i].selected = 0;
+                }
+            }
+            isGroundDirty = 1;
         }
     </script>
 </body>

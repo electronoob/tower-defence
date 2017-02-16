@@ -1,11 +1,12 @@
         var map = {};
         map.width = 2048;
         map.height = 2048;
-        function cameraObj (x=0,y=0) {
+
+        function cameraObj(x = 0, y = 0) {
             this.pos = new Vector(x, y);
             this.vel = new Vector(0, 0);
             this.acc = new Vector(0, 0);
-            this.update = function () {
+            this.update = function() {
                 this.vel.mul(0.9);
                 this.pos.add(this.vel);
                 this.vel.add(this.acc);
@@ -30,13 +31,18 @@
         var mX = 0;
         var mY = 0;
         var draw = function() {};
-
+        var mClick = function() {};
+        var mDblClick = function() {};
+        
+        var mXg = 0;
+        var mYg = 0;
+        
         function render() {
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            if(kb.u) camera.acc.add(new Vector( 0, -2));
-            if(kb.d) camera.acc.add(new Vector( 0,  2));
-            if(kb.l) camera.acc.add(new Vector(-2,  0));
-            if(kb.r) camera.acc.add(new Vector( 2,  0));
+            if (kb.u) camera.acc.add(new Vector(0, -2));
+            if (kb.d) camera.acc.add(new Vector(0, 2));
+            if (kb.l) camera.acc.add(new Vector(-2, 0));
+            if (kb.r) camera.acc.add(new Vector(2, 0));
             camera.update();
             draw();
             window.requestAnimationFrame(render);
@@ -80,6 +86,9 @@
                     this.div(m);
                 }
                 this.mul(value);
+            }
+            this.hypot = function(b) {
+                return Math.hypot(this.x - b.x, this.y - b.y);
             }
         }
 
@@ -152,18 +161,24 @@
                     break;
             }
         };
+        document.getElementById('scr').addEventListener("click", function() {
+            mClick();
+        });
+        document.getElementById('scr').addEventListener("dblclick", function() {
+            mDblClick();
+        });
+        document.getElementById('scr').addEventListener('mousemove', function(evt) {
+            var mousePos = getMousePos(scr, evt);
+            mX = mousePos.x;
+            mY = mousePos.y;
+            mXg = Math.round(mX+camera.pos.x);
+            mYg = Math.round(mY+camera.pos.y);
 
-
- document.getElementById('scr').addEventListener('mousemove', function(evt) {
-        var mousePos = getMousePos(scr, evt);
-           mX = mousePos.x;
-              mY = mousePos.y;
-               }, false);
-
-  function getMousePos(canvas, evt) {
-         var rect = canvas.getBoundingClientRect();
+        }, false);
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
             return {
-                     x: evt.clientX - rect.left,
-                          y: evt.clientY - rect.top
-                             };
-                              }
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
