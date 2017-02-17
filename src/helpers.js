@@ -1,27 +1,11 @@
         var map = {};
         map.width = 2048;
         map.height = 2048;
-
-        function cameraObj(x = 0, y = 0) {
-            this.pos = new Vector(x, y);
-            this.vel = new Vector(0, 0);
-            this.acc = new Vector(0, 0);
-            this.update = function() {
-                this.vel.mul(0.9);
-                this.pos.add(this.vel);
-                this.vel.add(this.acc);
-                this.acc.mul(0);
-            }
-        }
         var camera = new cameraObj();
-        var images = [];
-        var font = "\"Courier New\", Courier, monospace";
-        var size = 56;
         var ctx = scr.getContext("2d");
         var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
         var width = scr.width;
         var height = scr.height;
-        ctx.font = size + "px " + font;
         var kb = {
             l: 0,
             r: 0,
@@ -30,13 +14,19 @@
         };
         var mX = 0;
         var mY = 0;
+        var mXg = 0;
+        var mYg = 0;
         var draw = function() {};
         var mClick = function() {};
         var mDblClick = function() {};
-        
-        var mXg = 0;
-        var mYg = 0;
-        
+
+        var ground = document.createElement("canvas");
+        var gtx = ground.getContext("2d");
+        var isGroundDirty = 1; // reduce ground redraws
+        ground.width = map.width;
+        ground.height = map.height;
+
+
         function render() {
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             if (kb.u) camera.acc.add(new Vector(0, -2));
@@ -45,7 +35,8 @@
             if (kb.r) camera.acc.add(new Vector(2, 0));
             camera.update();
             draw();
-            var mouseRel = Math.round(mXg/100) + ", " + Math.round(mYg/100);
+            ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
+            var mouseRel = Math.round(mXg / 100) + ", " + Math.round(mYg / 100);
             ctx.font = "32px Arial";
             ctx.fillStyle = "rgba(0,0,0,1)";
             ctx.strokeStyle = "rgba(255,255,255,1)";
@@ -55,12 +46,6 @@
             window.requestAnimationFrame(render);
         }
         window.requestAnimationFrame(render);
-
-        function gri(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
 
         function Vector(x = 0, y = 0) {
             this.x = x;
@@ -97,34 +82,14 @@
             this.hypot = function(b) {
                 return Math.hypot(this.x - b.x, this.y - b.y);
             }
-            this.lerp = function (b, step) {
-                a = new Vector(this.x,this.y);
+            this.lerp = function(b, step) {
+                a = new Vector(this.x, this.y);
                 b.sub(a);
                 b.mul(step);
                 b.add(a);
                 return b;
             }
         }
-
-        function getPolyVectors(x, y, sides, radius, rotation) {
-            var points = [];
-            for (var i = 0; i < sides; i++) {
-                var lx = (radius * Math.cos(rotation + (2 * Math.PI) * i / (sides))) + x;
-                var ly = (radius * Math.sin(rotation + (2 * Math.PI) * i / (sides))) + y;
-                points.push(new Vector(lx, ly));
-            }
-            return points;
-        }
-
-        window.addEventListener("resize", resize);
-
-        function resize() {
-            scr.width = window.innerWidth;
-            scr.height = window.innerHeight;
-            scr.style.width = window.innerWidth + "px";
-            scr.style.height = window.innerHeight + "px";
-        }
-        resize();
 
         window.onkeydown = function(e) {
             switch (e.keyCode) {
@@ -176,14 +141,53 @@
             var mousePos = getMousePos(scr, evt);
             mX = mousePos.x;
             mY = mousePos.y;
-            mXg = Math.round(mX+camera.pos.x);
-            mYg = Math.round(mY+camera.pos.y);
+            mXg = Math.round(mX + camera.pos.x);
+            mYg = Math.round(mY + camera.pos.y);
 
         }, false);
+
         function getMousePos(canvas, evt) {
             var rect = canvas.getBoundingClientRect();
             return {
                 x: evt.clientX - rect.left,
                 y: evt.clientY - rect.top
             };
+        }
+
+        window.addEventListener("resize", resize);
+
+        function resize() {
+            scr.width = window.innerWidth;
+            scr.height = window.innerHeight;
+            scr.style.width = window.innerWidth + "px";
+            scr.style.height = window.innerHeight + "px";
+        }
+        resize();
+
+        function gri(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function cameraObj(x = 0, y = 0) {
+            this.pos = new Vector(x, y);
+            this.vel = new Vector(0, 0);
+            this.acc = new Vector(0, 0);
+            this.update = function() {
+                this.vel.mul(0.9);
+                this.pos.add(this.vel);
+                this.vel.add(this.acc);
+                this.acc.mul(0);
+            }
+        }
+
+        function getPolyVectors(x, y, sides, radius, rotation) {
+            var points = [];
+            for (var i = 0; i < sides; i++) {
+                var lx = (radius * Math.cos(rotation + (2 * Math.PI) * i / (sides))) + x;
+                var ly = (radius * Math.sin(rotation + (2 * Math.PI) * i / (sides))) + y;
+                points.push(new Vector(lx, ly));
+            }
+            return points;
         }

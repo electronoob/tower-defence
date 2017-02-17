@@ -66,11 +66,7 @@
         ctx == rendering context
         gtx == ground context
     */
-    var ground = document.createElement("canvas");
-    var gtx = ground.getContext("2d");
-    var isGroundDirty = 1; // reduce ground redraws
-    ground.width = map.width;
-    ground.height = map.height;
+
 
     var images = [];
     images.push(new Image());
@@ -114,7 +110,6 @@
                 */
             }
         }
-        ctx.drawImage(ground, -camera.pos.x, -camera.pos.y);
     }
 
     function mClick() {
