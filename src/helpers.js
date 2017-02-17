@@ -10,7 +10,7 @@ function helpers() {
     this.map = {};
     this.map.width = 2048;
     this.map.height = 2048;
-    this.camera = {}
+    this.camera = {};
     this.camera.pos = new Vector(0, 0);
     this.camera.vel = new Vector(0, 0);
     this.camera.acc = new Vector(0, 0);
@@ -21,7 +21,6 @@ function helpers() {
         this.acc.mul(0);
     };
     this.ctx = scr.getContext("2d");
-    this.audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     this.width = scr.width;
     this.height = scr.height;
     this.kb = {

@@ -49,7 +49,7 @@ h.draw = function() {
             h.gtx.arc(bases[i].pos.x, bases[i].pos.y, bases[i].radius, 0, 2 * Math.PI);
             h.gtx.fill();
             h.gtx.stroke();
-            h.gtx.closePath;
+            h.gtx.closePath();
             h.gtx.font = Math.round(bases[i].radius / 4) + "px Arial";
             var uOffsetX = h.gtx.measureText(bases[i].username).width / 2;
             var uOffsetY = h.gtx.measureText("M").width / 2;
@@ -63,7 +63,7 @@ h.draw = function() {
             */
         }
     }
-}
+};
 
 h.mDblClick = function() {
     for (i = 0; i < bases.length; i++) {
