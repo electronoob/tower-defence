@@ -1,4 +1,6 @@
-if (typeof electronoob === 'undefined') {
+/*global h*/
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
+if (typeof electronoob === "undefined") {
     console.error ("helpers not loaded loaded. required by icons.js");
 }
 var btnPanel = document.getElementById("buttons");        
@@ -23,6 +25,7 @@ Object.keys(btnIcon).forEach(function(key) {
         btnIcon[key][btnIcon[key].length-1].x,
         btnIcon[key][btnIcon[key].length-1].y
     );
+    var i;
     for(i=0;i<btnIcon[key].length;i++) {
         btnIconRender[key].getContext("2d").lineTo(btnIcon[key][i].x,btnIcon[key][i].y);
     }

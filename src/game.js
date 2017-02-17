@@ -1,3 +1,4 @@
+/*global Vector, h*/
 var bases = [];
 bases[0] = {
     type: "tower",
@@ -32,6 +33,7 @@ h.draw = function() {
     if (h.isGroundDirty) {
         h.isGroundDirty = 0;
         h.gtx.clearRect(0, 0, h.map.width, h.map.height);
+        var i,k;
         for (i = 0; i < h.map.width + 500; i += 500) {
             for (k = 0; k < h.map.height + 500; k += 500) {
                 h.gtx.drawImage(images[0], i, k);
@@ -66,6 +68,7 @@ h.draw = function() {
 };
 
 h.mDblClick = function() {
+    var i;
     for (i = 0; i < bases.length; i++) {
         var c = bases[i].pos.hypot(new Vector(h.mXg, h.mYg));
         if (c < bases[i].radius) {

@@ -1,3 +1,4 @@
+/* exported Vector */ 
 function Vector(x = 0, y = 0) {
     this.x = x;
     this.y = y;
@@ -24,7 +25,7 @@ function Vector(x = 0, y = 0) {
         this.y *= value;
     };
     this.setMag = function(value) {
-        m = this.mag();
+        var m = this.mag();
         if (m !== 0 && m != 1) {
             this.div(m);
         }
@@ -34,7 +35,7 @@ function Vector(x = 0, y = 0) {
         return Math.hypot(this.x - b.x, this.y - b.y);
     };
     this.lerp = function(b, step) {
-        a = new Vector(this.x, this.y);
+        var a = new Vector(this.x, this.y);
         b.sub(a);
         b.mul(step);
         b.add(a);

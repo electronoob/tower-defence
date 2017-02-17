@@ -1,12 +1,8 @@
+/*exported h*/
+/*global Vector, scr*/
 var h = new helpers();
 
 function helpers() {
-    if (typeof electronoob !== 'undefined') {
-        console.error("helpers already loaded.");
-        return -1;
-    } else {
-        window.electronoob = this;
-    }
     this.map = {};
     this.map.width = 2048;
     this.map.height = 2048;
@@ -60,11 +56,11 @@ function helpers() {
         window.requestAnimationFrame(this.render.bind(this));
     };
     window.requestAnimationFrame(this.render.bind(this));
-    function gri(min, max) {
+    this.gri = function (min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    };
     this.getPolyVectors = function(x, y, sides, radius, rotation) {
         var points = [];
         for (var i = 0; i < sides; i++) {
@@ -76,51 +72,51 @@ function helpers() {
     };
     window.onkeydown = function(e) {
         switch (e.keyCode) {
-            case 38:
-                this.kb.u = 1;
-                e.preventDefault();
-                break;
-            case 40:
-                this.kb.d = 1;
-                e.preventDefault();
-                break;
-            case 37:
-                this.kb.l = 1;
-                e.preventDefault();
-                break;
-            case 39:
-                this.kb.r = 1;
-                e.preventDefault();
-                break;
+        case 38:
+            this.kb.u = 1;
+            e.preventDefault();
+            break;
+        case 40:
+            this.kb.d = 1;
+            e.preventDefault();
+            break;
+        case 37:
+            this.kb.l = 1;
+            e.preventDefault();
+            break;
+        case 39:
+            this.kb.r = 1;
+            e.preventDefault();
+            break;
         }
     }.bind(this);
     window.onkeyup = function(e) {
         switch (e.keyCode) {
-            case 38:
-                this.kb.u = 0;
-                e.preventDefault();
-                break;
-            case 40:
-                this.kb.d = 0;
-                e.preventDefault();
-                break;
-            case 37:
-                this.kb.l = 0;
-                e.preventDefault();
-                break;
-            case 39:
-                this.kb.r = 0;
-                e.preventDefault();
-                break;
+        case 38:
+            this.kb.u = 0;
+            e.preventDefault();
+            break;
+        case 40:
+            this.kb.d = 0;
+            e.preventDefault();
+            break;
+        case 37:
+            this.kb.l = 0;
+            e.preventDefault();
+            break;
+        case 39:
+            this.kb.r = 0;
+            e.preventDefault();
+            break;
         }
     }.bind(this);
-    document.getElementById('scr').addEventListener("click", function() {
+    document.getElementById("scr").addEventListener("click", function() {
         this.mClick();
     }.bind(this));
-    document.getElementById('scr').addEventListener("dblclick", function() {
+    document.getElementById("scr").addEventListener("dblclick", function() {
         this.mDblClick();
     }.bind(this));
-    document.getElementById('scr').addEventListener('mousemove', function(evt) {
+    document.getElementById("scr").addEventListener("mousemove", function(evt) {
         var mousePos = this.getMousePos(scr, evt);
         this.mX = mousePos.x;
         this.mY = mousePos.y;
