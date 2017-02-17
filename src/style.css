@@ -7,14 +7,12 @@ canvas#scr {
 div#buttonsContainer {
     position: absolute;
     bottom: 10px;
-    height: 120px;
     width: 100%;
     text-align: center;
 }
 
 div#buttons {
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 120px;
+    /*background-color: rgba(0, 0, 0, 0.0);*/
     border-radius: 90px;
     padding-left: 50px;
     padding-right: 50px;

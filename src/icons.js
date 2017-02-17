@@ -1,15 +1,16 @@
-
+        if (typeof electronoob === 'undefined') {
+            console.error ("helpers not loaded loaded. required by icons.js");
+        }
         var btnPanel = document.getElementById("buttons");        
-        var btnIconWidth = 100;
-        var btnIconHeight = 100;
+        var btnIconWidth = 50;
+        var btnIconHeight = 50;
         var btnIconRender = {};
         var btnIcon = {};
-        btnIcon.power       = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,6,30,0);
-        btnIcon.house       = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,5,30,0);
-        btnIcon.barracks    = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,4,30,0);
-        btnIcon.wall        = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,20,30,0);
-        btnIcon.armory      = getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 10,3,30,0);
-
+        btnIcon.power       = h.getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 5,6,14,0);
+        btnIcon.house       = h.getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 5,5,14,0);
+        btnIcon.barracks    = h.getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 5,4,14,0);
+        btnIcon.wall        = h.getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 5,20,14,0);
+        btnIcon.armory      = h.getPolyVectors(btnIconWidth/2,btnIconHeight/2 - 5,3,14,0);
 
         Object.keys(btnIcon).forEach(function(key) {       
             btnIconRender[key]  = document.createElement("canvas");
@@ -27,14 +28,14 @@
             }
             btnIconRender[key].getContext("2d").stroke();
             btnIconRender[key].getContext("2d").closePath();
-            btnIconRender[key].getContext("2d").font = "20px Arial";
+            btnIconRender[key].getContext("2d").font = "10px Arial";
             btnIconRender[key].getContext("2d").fillStyle = "rgba(255,255,255,1)";
             btnIconRender[key].getContext("2d").strokeStyle = "rgba(0,0,0,1)";
             btnIconRender[key].getContext("2d").lineWidth = 1;
             btnIconRender[key].getContext("2d").miterLimit = 2;
             var w = btnIconRender[key].getContext("2d").measureText(key);
-            btnIconRender[key].getContext("2d").strokeText (key, btnIconWidth/2 - w.width/2,90);
-            btnIconRender[key].getContext("2d").fillText (key, btnIconWidth/2 - w.width/2,90);
+            btnIconRender[key].getContext("2d").strokeText (key, btnIconWidth/2 - w.width/2,43);
+            btnIconRender[key].getContext("2d").fillText (key, btnIconWidth/2 - w.width/2,43);
             btnIconRender[key].className = "btnIconRender";
             btnPanel.appendChild(btnIconRender[key]);
         });
