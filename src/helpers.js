@@ -137,8 +137,9 @@ function helpers() {
         scr.style.height = window.innerHeight + "px";
     }.bind(this));
     this.resize();
-    window.addEventListener("ontouchmove", function(e){
+    //iphone scroll bounce crap fix
+    document.ontouchmove = function(e){
         return true;
-    });
+    };
 
 }
