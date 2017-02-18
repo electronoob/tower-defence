@@ -1,8 +1,6 @@
 /*global h*/
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
-if (typeof electronoob === "undefined") {
-    console.error ("helpers not loaded loaded. required by icons.js");
-}
+
 var btnPanel = document.getElementById("buttons");        
 var btnIconWidth = 50;
 var btnIconHeight = 50;
