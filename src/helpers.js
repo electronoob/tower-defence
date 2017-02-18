@@ -137,9 +137,4 @@ function helpers() {
         scr.style.height = window.innerHeight + "px";
     }.bind(this));
     this.resize();
-    //iphone scroll bounce crap fix
-    document.ontouchmove = function(e){
-        return true;
-    };
-
 }
