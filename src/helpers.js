@@ -139,6 +139,7 @@ function helpers() {
     this.resize();
     window.addEventListener("orientationchange", function() {
         this.resize();
+        alert("cocks");
     }.bind(this));
 
 }
