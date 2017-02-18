@@ -137,4 +137,8 @@ function helpers() {
         scr.style.height = window.innerHeight + "px";
     }.bind(this));
     this.resize();
+    window.addEventListener("orientationchange", function() {
+        this.resize();
+    }.bind(this));
+
 }
