@@ -137,5 +137,8 @@ function helpers() {
         scr.style.height = window.innerHeight + "px";
     }.bind(this));
     this.resize();
+    window.addEventListener("ontouchmove", function(e){
+        return true;
+    });
 
 }
