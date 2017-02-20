@@ -25,6 +25,8 @@ function helpers() {
         u: 0,
         d: 0
     };
+    this.renderAtStart = [];
+    this.renderAtEnd = [];
     this.mX = 0;
     this.mY = 0;
     this.mXg = 0;
@@ -47,19 +49,37 @@ function helpers() {
         this.draw();
         this.ctx.drawImage(this.ground, -this.camera.pos.x, -this.camera.pos.y);
         var mouseRel = Math.round(this.mXg / 100) + ", " + Math.round(this.mYg / 100);
-        this.ctx.font = "32px Arial";
+        this.ctx.font = "24px Arial";
         this.ctx.fillStyle = "rgba(0,0,0,1)";
         this.ctx.strokeStyle = "rgba(255,255,255,1)";
         this.ctx.lineWidth = 3;
-        this.ctx.strokeText("Location " + mouseRel, 50, 50);
-        this.ctx.fillText("Location " + mouseRel, 50, 50);
+        this.ctx.strokeText(mouseRel, 30, this.height-24);
+        this.ctx.fillText(mouseRel, 30, this.height-24);
+        this.drawAtEnd();
         window.requestAnimationFrame(this.render.bind(this));
     };
-    window.requestAnimationFrame(this.render.bind(this));
     this.gri = function (min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    this.drawAtStart = function () {
+        var i=0;
+        for(i=0;i<this.renderAtStart.length;i++) {
+            this.renderAtStart[i]();
+        }
+    };
+    this.drawAtEnd = function () {
+        var i=0;
+        for(i=0;i<this.renderAtEnd.length;i++) {
+            this.renderAtEnd[i]();
+        }
+    };
+    this.addRenderAtStart = function (func) {
+        this.renderAtStart.push(func);
+    };
+    this.addRenderAtEnd = function (func) {
+        this.renderAtEnd.push(func);
     };
     this.getPolyVectors = function(x, y, sides, radius, rotation) {
         var points = [];
@@ -135,6 +155,8 @@ function helpers() {
         scr.height = window.innerHeight;
         scr.style.width = window.innerWidth + "px";
         scr.style.height = window.innerHeight + "px";
+        this.width = scr.width;
+        this.height = scr.height;
     }.bind(this));
     this.resize();
     window.addEventListener("orientationchange", function() {
@@ -142,6 +164,6 @@ function helpers() {
     }.bind(this));
     document.ontouchmove = function(event){
         event.preventDefault();
-    }
-
+    };
+    window.requestAnimationFrame(this.render.bind(this));
 }
