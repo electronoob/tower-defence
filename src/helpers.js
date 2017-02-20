@@ -10,6 +10,7 @@ function helpers() {
     this.camera.pos = new Vector(0, 0);
     this.camera.vel = new Vector(0, 0);
     this.camera.acc = new Vector(0, 0);
+    this.camera.zoom = 1;
     this.camera.update = function() {
         this.vel.mul(0.9);
         this.pos.add(this.vel);
@@ -23,7 +24,8 @@ function helpers() {
         l: 0,
         r: 0,
         u: 0,
-        d: 0
+        d: 0,
+        s: 0
     };
     this.renderAtStart = [];
     this.renderAtEnd = [];
@@ -40,7 +42,9 @@ function helpers() {
     this.ground.width = this.map.width;
     this.ground.height = this.map.height;
     this.render = function() {
+        this.gtx.save();
         this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        this.gtx.scale(this.camera.zoom, this.camera.zoom);
         if (this.kb.u) this.camera.acc.add(new Vector(0, -2));
         if (this.kb.d) this.camera.acc.add(new Vector(0, 2));
         if (this.kb.l) this.camera.acc.add(new Vector(-2, 0));
@@ -56,6 +60,8 @@ function helpers() {
         this.ctx.strokeText(mouseRel, 30, this.height-24);
         this.ctx.fillText(mouseRel, 30, this.height-24);
         this.drawAtEnd();
+        //this.gtx.fillRect((this.mXg-10) , (this.mYg-10) ,20,20);
+        this.gtx.restore();
         window.requestAnimationFrame(this.render.bind(this));
     };
     this.gri = function (min, max) {
@@ -108,6 +114,10 @@ function helpers() {
             this.kb.r = 1;
             e.preventDefault();
             break;
+        case 16:
+            this.kb.s = 1;
+            e.preventDefault();
+            break;
         }
     }.bind(this);
     window.onkeyup = function(e) {
@@ -128,6 +138,10 @@ function helpers() {
             this.kb.r = 0;
             e.preventDefault();
             break;
+        case 16:
+            this.kb.s = 0;
+            e.preventDefault();
+            break;
         }
     }.bind(this);
     document.getElementById("scr").addEventListener("click", function() {
@@ -140,8 +154,8 @@ function helpers() {
         var mousePos = this.getMousePos(scr, evt);
         this.mX = mousePos.x;
         this.mY = mousePos.y;
-        this.mXg = Math.round(this.mX + this.camera.pos.x);
-        this.mYg = Math.round(this.mY + this.camera.pos.y);
+        this.mXg = Math.round(( this.mX + this.camera.pos.x) / this.camera.zoom);
+        this.mYg = Math.round(( this.mY + this.camera.pos.y) / this.camera.zoom);
     }.bind(this), false);
     this.getMousePos = function(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -166,7 +180,17 @@ function helpers() {
         event.preventDefault();
     };
     window.addEventListener("wheel", function (e) {
-        this.camera.acc.add(new Vector(e.deltaX*0.5, e.deltaY*0.5));
+        if (this.kb.s) {
+            this.camera.acc.add(new Vector(e.deltaX*0.3, e.deltaY*0.3));
+        } else {
+            this.camera.zoom += e.deltaY * 0.01;
+            if(this.camera.zoom > 1) this.camera.zoom = 1;
+            if(this.camera.zoom < 0.3) this.camera.zoom = 0.3;
+            this.ground.width = this.map.width * this.camera.zoom;
+            this.ground.height = this.map.height * this.camera.zoom;
+            this.isGroundDirty = 1;
+
+        }
         event.preventDefault();
     }.bind(this));
 

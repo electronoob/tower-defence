@@ -32,10 +32,10 @@ images[images.length - 1].onload = function() {
 h.draw = function() {
     if (h.isGroundDirty) {
         h.isGroundDirty = 0;
-        h.gtx.clearRect(0, 0, h.map.width, h.map.height);
+        h.gtx.clearRect(0, 0, h.ground.width, h.ground.height);
         var i,k;
-        for (i = 0; i < h.map.width + 500; i += 500) {
-            for (k = 0; k < h.map.height + 500; k += 500) {
+        for (i = 0; i < (h.ground.width / h.camera.zoom); i += 500) {
+            for (k = 0; k < (h.ground.height / h.camera.zoom); k += 500) {
                 h.gtx.drawImage(images[0], i, k);
             }
         }
@@ -70,7 +70,7 @@ h.draw = function() {
 h.mDblClick = function() {
     var i;
     for (i = 0; i < bases.length; i++) {
-        var c = bases[i].pos.hypot(new Vector(h.mXg, h.mYg));
+        var c = bases[i].pos.hypot(new Vector(this.mXg, this.mYg));
         if (c < bases[i].radius) {
             bases[i].selected = 1;
         } else {
