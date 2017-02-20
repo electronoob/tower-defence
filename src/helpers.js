@@ -165,5 +165,9 @@ function helpers() {
     document.ontouchmove = function(event){
         event.preventDefault();
     };
+    window.addEventListener("wheel", function (e) {
+        this.camera.acc.add(new Vector(e.deltaX*0.5, e.deltaY*0.5));
+    }.bind(this));
+
     window.requestAnimationFrame(this.render.bind(this));
 }
