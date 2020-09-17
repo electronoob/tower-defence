@@ -50,4 +50,9 @@ function Vector(x = 0, y = 0) {
     this.toRadians = function (o) {
     	return (Math.PI/180)*o;
     }
+    this.rotate = function (o) {
+      var new_heading = this.heading() + o;
+      this.x = Math.cos(new_heading) * this.mag();
+      this.y = Math.sin(new_heading) * this.mag();
+    }
 }
