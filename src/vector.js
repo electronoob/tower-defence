@@ -10,6 +10,9 @@ function Vector(x = 0, y = 0) {
         this.x += b.x;
         this.y += b.y;
     };
+    this.heading = function () {
+   		return Math.atan2(this.y, this.x);
+    }
     this.mag = function() {
         return Math.sqrt(Math.pow(Math.abs(this.x),2)  + Math.pow(Math.abs(this.y),2));
     };
@@ -41,4 +44,7 @@ function Vector(x = 0, y = 0) {
         b.add(a);
         return b;
     };
+    this.toDegrees = function (o) {
+    	return o * 180 / Math.PI;
+    }
 }
