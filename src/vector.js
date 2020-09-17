@@ -11,10 +11,10 @@ function Vector(x = 0, y = 0) {
         this.y += b.y;
     };
     this.mag = function() {
-        return Math.sqrt(Math.abs(this.x) ^ 2 + Math.abs(this.y) ^ 2);
+        return Math.sqrt(Math.pow(Math.abs(this.x),2)  + Math.pow(Math.abs(this.y),2));
     };
     this.magsq = function() {
-        return Math.abs(this.x) ^ 2 + Math.abs(this.y) ^ 2;
+        return Math.pow(Math.abs(this.x),2)  + Math.pow(Math.abs(this.y),2);
     };
     this.div = function(value) {
         this.x /= value;
