@@ -46,13 +46,14 @@ function Vector(x = 0, y = 0) {
     };
     this.toDegrees = function (o) {
     	return o * 180 / Math.PI;
-    }
+    };
     this.toRadians = function (o) {
     	return (Math.PI/180)*o;
-    }
+    };
     this.rotate = function (o) {
-      var new_heading = this.heading() + o;
-      this.x = Math.cos(new_heading) * this.mag();
-      this.y = Math.sin(new_heading) * this.mag();
+      var tmp_heading = this.heading() + o;
+      var tmp_mag = this.mag();
+      this.x = Math.cos(tmp_heading) * tmp_mag;
+      this.y = Math.sin(tmp_heading) * tmp_mag;
     }
 }
