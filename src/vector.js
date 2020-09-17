@@ -47,4 +47,7 @@ function Vector(x = 0, y = 0) {
     this.toDegrees = function (o) {
     	return o * 180 / Math.PI;
     }
+    this.toRadians = function (o) {
+    	return (Math.PI/180)*o;
+    }
 }
